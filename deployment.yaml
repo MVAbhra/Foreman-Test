@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: foreman-backend
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: foreman-backend
+
+  template:
+    metadata:
+      labels:
+        app: foreman-backend
+
+    spec:
+      containers:
+      - name: foreman-backend
+
+        image: foreman-backend
+
+        imagePullPolicy: Never
+
+        ports:
+        - containerPort: 8080
+
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://host.docker.internal:3306/foreman_backend?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+
+        - name: SPRING_DATASOURCE_USERNAME
+          value: root
+
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "9433"
